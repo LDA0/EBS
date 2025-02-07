@@ -1,6 +1,7 @@
-package com.example.ebs.pages
+package com.example.ebs.ui.starter
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,26 +16,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ebs.ui.components.composes.InputSpace
+import com.example.ebs.utils.getGredien
 
-@Preview(showBackground = true)
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    onNavigateMenu: () -> Unit,
+    onNavigateLogin: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.surface)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
         Text(
             text = "Buat Akun!",
@@ -54,26 +55,22 @@ fun SignUpScreen() {
         InputSpace("Password")
         Spacer(modifier = Modifier.height(16.dp))
 
-
-        val colorStops = listOf(
-            Color.Yellow,
-            Color.Red,
-            Color.Blue
-        )
-        val gredien = Brush.linearGradient(
-            colors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary),
-            start = Offset(-200f, Float.POSITIVE_INFINITY),
-            end = Offset(Float.POSITIVE_INFINITY, -200f)
-        )
         Card(
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(60.dp)
+                .clickable (
+                    onClick = { onNavigateMenu() })
         ) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(gredien)
+                    .background(
+                        getGredien(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.secondary
+                        )
+                    )
             ){
                 Text(
                     text = "Daftar",
@@ -98,7 +95,9 @@ fun SignUpScreen() {
         Text(
             text = textkusus2,
             style = MaterialTheme.typography.bodySmall,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .clickable { onNavigateLogin() }
         )
     }
 }

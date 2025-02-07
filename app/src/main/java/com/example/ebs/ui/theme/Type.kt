@@ -1,7 +1,6 @@
 package com.example.ebs.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.googlefonts.Font
@@ -14,7 +13,6 @@ val provider = GoogleFont.Provider(
     providerPackage = "com.google.android.gms",
     certificates = R.array.com_google_android_gms_fonts_certs
 )
-
 val NunitoSans = GoogleFont(name = "Nunito Sans")
 
 val NunitoSansFamily = FontFamily(
@@ -25,110 +23,23 @@ val NunitoSansFamily = FontFamily(
     Font(googleFont = NunitoSans, fontProvider = provider, weight = FontWeight.Bold),
 )
 
-val EBSTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Light,
-        fontSize = 57.sp,
-        lineHeight = 64.sp,
-        letterSpacing = 0.sp
-    ),
-    displayMedium = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Light,
-        fontSize = 45.sp,
-        lineHeight = 52.sp,
-        letterSpacing = 0.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp,
-        lineHeight = 44.sp,
-        letterSpacing = 0.sp
-    ),
-    headlineLarge = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 32.sp,
-        lineHeight = 40.sp,
-        letterSpacing = 0.sp
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
-        letterSpacing = 0.sp
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
-        lineHeight = 32.sp,
-        letterSpacing = 0.sp
-    ),
-    titleLarge = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    titleMedium = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
-    ),
-    titleSmall = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
-    ),
-    bodyLarge = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.4.sp
-    ),
-    labelLarge = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = NunitoSansFamily,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
+// Default Material 3 typography values
+val baseline = Typography()
+
+val AppTypography = Typography(
+    displayLarge = baseline.displayLarge.copy(fontFamily = NunitoSansFamily),
+    displayMedium = baseline.displayMedium.copy(fontFamily = NunitoSansFamily),
+    displaySmall = baseline.displaySmall.copy(fontFamily = NunitoSansFamily),
+    headlineLarge = baseline.headlineLarge.copy(fontFamily = NunitoSansFamily),
+    headlineMedium = baseline.headlineMedium.copy(fontFamily = NunitoSansFamily),
+    headlineSmall = baseline.headlineSmall.copy(fontFamily = NunitoSansFamily),
+    titleLarge = baseline.titleLarge.copy(fontFamily = NunitoSansFamily),
+    titleMedium = baseline.titleMedium.copy(fontFamily = NunitoSansFamily, fontSize = 20.sp),
+    titleSmall = baseline.titleSmall.copy(fontFamily = NunitoSansFamily),
+    bodyLarge = baseline.bodyLarge.copy(fontFamily = NunitoSansFamily),
+    bodyMedium = baseline.bodyMedium.copy(fontFamily = NunitoSansFamily),
+    bodySmall = baseline.bodySmall.copy(fontFamily = NunitoSansFamily),
+    labelLarge = baseline.labelLarge.copy(fontFamily = NunitoSansFamily),
+    labelMedium = baseline.labelMedium.copy(fontFamily = NunitoSansFamily),
+    labelSmall = baseline.labelSmall.copy(fontFamily = NunitoSansFamily, fontSize = 9.sp),
 )
