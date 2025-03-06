@@ -1,4 +1,4 @@
-package com.example.ebs.ui.home
+package com.example.ebs.ui.dashboard
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -29,25 +29,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ebs.R
+import com.example.ebs.ui.AppViewModelProvider
+import com.example.ebs.ui.components.composes.MyPage
 import com.example.ebs.ui.components.composes.TopBer
+import com.example.ebs.ui.navigation.NavigationHandler
 import com.example.ebs.utils.getGredien
+import dev.chrisbanes.haze.HazeState
 
 @Composable
 fun ProfileScreen(
-    onOpenDialogueSetting: () -> Unit
+    navHandler: NavigationHandler,
+    hazeState: HazeState,
+    viewModel: DashboardViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     Scaffold(
         topBar = {
             TopBer(title = "Profile")
         },
     ) { padding ->
-        Column (
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
+        MyPage(
+            hazeState,
             modifier = Modifier
                 .padding(padding)
-                .fillMaxWidth()
         ){
             Spacer(modifier = Modifier.height(32.dp))
             Card(
@@ -81,7 +86,7 @@ fun ProfileScreen(
                             textAlign = TextAlign.Center,
                             color = Color.White,
                             modifier = Modifier
-                                .clickable { onOpenDialogueSetting() }
+                                .clickable { navHandler.dialogueSetting() }
                         )
                         Text(
                             text = "ldao089@jimail.com | 089789462909",

@@ -1,6 +1,7 @@
 package com.example.ebs.ui.cameraKatanya
 
 import android.Manifest
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -46,17 +47,12 @@ fun AlbumScreen(modifier: Modifier = Modifier,
 
     val pickImageFromAlbumLauncher = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(20)) { urls ->
         viewModel.onReceive(Intent.OnFinishPickingImagesWith(currentContext, urls))
-        // or if you are using AndroidViewModel use this event instead
-        // viewModel.onEvent(Event.OnFinishPickingImages(urls))
     }
 
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { isImageSaved ->
         if (isImageSaved) {
             viewModel.onReceive(Intent.OnImageSavedWith(currentContext))
-            // or if you are using AndroidViewModel use this event instead
-            // viewModel.onEvent(Event.OnImageSaved)
         } else {
-            // handle image saving error or cancellation
             viewModel.onReceive(Intent.OnImageSavingCanceled)
         }
     }
@@ -64,13 +60,11 @@ fun AlbumScreen(modifier: Modifier = Modifier,
     val permissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { permissionGranted ->
         if (permissionGranted) {
             viewModel.onReceive(Intent.OnPermissionGrantedWith(currentContext))
-            // or if you are using AndroidViewModel use this event instead
-            // viewModel.onEvent(Event.OnPermissionGranted)
         } else {
             // handle permission denied such as:
             viewModel.onReceive(Intent.OnPermissionDenied)
-            // or perhaps show a toast
-            // Toast.makeText(context, "In order to take pictures, you have to allow this app to use your camera", Toast.LENGTH_SHORT).show()
+//            or perhaps show a toast
+            Toast.makeText(currentContext, "In order to take pictures, you have to allow this app to use your camera", Toast.LENGTH_SHORT).show()
         }
     }
 

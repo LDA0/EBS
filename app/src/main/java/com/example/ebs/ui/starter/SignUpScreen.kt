@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,13 +23,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ebs.ui.AppViewModelProvider
 import com.example.ebs.ui.components.composes.InputSpace
+import com.example.ebs.ui.navigation.NavigationHandler
 import com.example.ebs.utils.getGredien
 
 @Composable
 fun SignUpScreen(
-    onNavigateMenu: () -> Unit,
-    onNavigateLogin: () -> Unit
+    navHandler: NavigationHandler,
+    viewModel: SignUpViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -56,11 +60,12 @@ fun SignUpScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Card(
+            shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(60.dp)
                 .clickable (
-                    onClick = { onNavigateMenu() })
+                    onClick = { navHandler.menuFromSignUp() })
         ) {
             Box(
                 modifier = Modifier
@@ -97,7 +102,7 @@ fun SignUpScreen(
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .clickable { onNavigateLogin() }
+                .clickable { navHandler.signInFromSignUp() }
         )
     }
 }

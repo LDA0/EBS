@@ -1,4 +1,4 @@
-package com.example.ebs.ui.home
+package com.example.ebs.ui.dashboard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,10 +8,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ebs.ui.AppViewModelProvider
 import com.example.ebs.ui.components.composes.TopBer
 
+
 @Composable
-fun DetectionListScreen() {
+fun WasteDetailScreen(
+    viewModel: WasteDetailViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
     Scaffold(
         topBar = {
             TopBer(title = "Profile")

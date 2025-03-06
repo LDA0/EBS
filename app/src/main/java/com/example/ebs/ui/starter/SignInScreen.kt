@@ -1,5 +1,6 @@
 package com.example.ebs.ui.starter
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,11 +15,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,15 +33,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ebs.R
+import com.example.ebs.ui.AppViewModelProvider
 import com.example.ebs.ui.components.composes.InputSpace
+import com.example.ebs.ui.navigation.NavigationHandler
 import com.example.ebs.utils.getGredien
 
 
 @Composable
 fun SignInScreen(
-    onNavigateMenu: () -> Unit,
-    onNavigateSignUp: () -> Unit
+    navHandler: NavigationHandler,
+    SignedIn: MutableState<Boolean>,
+    viewModel: SignInViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -87,11 +94,15 @@ fun SignInScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Card(
+            shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(60.dp)
                 .clickable (
-                    onClick = { onNavigateMenu() })
+                    onClick = {
+                        SignedIn.value = true
+                        navHandler.menuFromSignIn()
+                    })
         ) {
             Box(
                 modifier = Modifier
@@ -145,6 +156,8 @@ fun SignInScreen(
 
 
         Card(
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface),
+            shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth(0.8f)
                 .height(60.dp)
@@ -189,7 +202,7 @@ fun SignInScreen(
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier
-                .clickable { onNavigateSignUp() }
+                .clickable { navHandler.signUpFromSignIn() }
         )
     }
 }
