@@ -35,7 +35,7 @@ import com.example.ebs.ui.AppViewModelProvider
 import com.example.ebs.ui.components.composes.MyPage
 import com.example.ebs.ui.components.composes.TopBer
 import com.example.ebs.ui.navigation.NavigationHandler
-import com.example.ebs.utils.getGredien
+import com.example.ebs.ui.components.getGredienButton
 import dev.chrisbanes.haze.HazeState
 
 @Composable
@@ -64,7 +64,7 @@ fun ProfileScreen(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
-                            getGredien(
+                            getGredienButton(
                                 MaterialTheme.colorScheme.primary,
                                 MaterialTheme.colorScheme.secondary
                             )

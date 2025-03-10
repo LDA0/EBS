@@ -12,7 +12,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.ebs.ui.components.DarkLightPreviews
 import com.example.ebs.ui.theme.EBSTheme
 import dev.chrisbanes.haze.HazeState
 
@@ -59,14 +58,6 @@ fun MyNavigationg(
     }
 }
 
-@DarkLightPreviews
-@Composable
-fun PreviewMyNavigationg(){
-    EBSTheme {
-        val signedIn = remember{ mutableStateOf(false) }
-        MyNavigationg(signedIn)
-    }
-}
 
 
 

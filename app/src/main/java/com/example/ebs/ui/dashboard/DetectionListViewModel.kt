@@ -1,27 +1,30 @@
 package com.example.ebs.ui.dashboard
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ebs.data.repositories.remote.Book
+import com.example.ebs.data.repositories.remote.BookData
 import com.example.ebs.data.repositories.remote.DataTest
 import com.example.ebs.data.repositories.remote.DataTestRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface DetectionListUiState {
-    data class Success(val dataTest: List<DataTest>) : DetectionListUiState
-    object Error : DetectionListUiState
+    data class Success(val dataTestList: DataTest) : DetectionListUiState
+    data class Error(val e: Exception) : DetectionListUiState
     object Loading : DetectionListUiState
 }
 
 class DetectionListViewModel(
     private val dataTestRepository: DataTestRepository
 ) : ViewModel() {
-    var detectionListUiState: DetectionListUiState by mutableStateOf(DetectionListUiState.Loading)
-        private set
+    private val _detectionListUiState = MutableStateFlow<DetectionListUiState>(DetectionListUiState.Loading)
+    val detectionListUiState: StateFlow<DetectionListUiState> = _detectionListUiState
 
     init {
         getData()
@@ -29,15 +32,44 @@ class DetectionListViewModel(
 
     fun getData() {
         viewModelScope.launch {
-            detectionListUiState = DetectionListUiState.Loading
-            detectionListUiState = try {
-                DetectionListUiState.Success(dataTestRepository.getData())
+            _detectionListUiState.value = DetectionListUiState.Loading
+            try {
+                val dataFlow = dataTestRepository.getData()
+                    .stateIn(
+                        scope = viewModelScope,
+                        started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
+                        initialValue = DataTest(
+                            status = "---",
+                            data = BookData(
+                                book = Book(
+                                    id = "",
+                                    name = "",
+                                    year = 0,
+                                    author = "",
+                                    summary = "",
+                                    publisher = "",
+                                    pageCount = 0,
+                                    readPage = 0,
+                                    finished = false,
+                                    reading = false,
+                                    insertedAt = "",
+                                    updatedAt = ""
+                                )
+                            )
+                        )
+                    ).collect { data ->
+                        _detectionListUiState.value = DetectionListUiState.Success(data)
+                    }
             } catch (e: IOException) {
-                DetectionListUiState.Error
+                _detectionListUiState.value = DetectionListUiState.Error(e)
             } catch (e: HttpException) {
-                DetectionListUiState.Error
+                _detectionListUiState.value = DetectionListUiState.Error(e)
             }
         }
+    }
+
+    companion object {
+        private const val TIMEOUT_MILLIS = 5_000L
     }
 
 //    /**

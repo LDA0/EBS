@@ -5,14 +5,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
@@ -48,17 +55,17 @@ fun MyIconImage(
 
 @Composable
 fun MyCard(
+    modifier: Modifier = Modifier,
     border: BorderStroke = BorderStroke(
         width = 0.9.dp,
         MaterialTheme.colorScheme.onSurface
     ),
-    modifier: Modifier = Modifier
-        .padding(vertical = 10.dp),
     content: @Composable () -> Unit
 ){
     Card(
         border = border,
         modifier = modifier
+            .padding(vertical = 10.dp)
     ){
         content()
     }
@@ -75,8 +82,44 @@ fun MyPage(
         modifier = modifier
             .fillMaxSize()
             .hazeSource(hazeState)
-            .background(MaterialTheme.colorScheme.surface)
     ){
         content()
+    }
+}
+
+@Composable
+fun Indicator(
+    text: String,
+    color: Color
+){
+    CenterRow(
+        modifier = Modifier
+            .height(20.dp)
+            .clip(CircleShape)
+            .background(
+                color.copy(
+                    alpha = 0.15f
+                )
+            )
+    ) {
+        CenterRow(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+        ){
+            CenterRow(
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .size(5.dp)
+                    .clip(CircleShape)
+                    .background(
+                        color
+                    )
+            ) {}
+            TextContentS(buildAnnotatedString {
+                withStyle(SpanStyle(color = color)) {
+                    append(text)
+                }
+            }, mod = true)
+        }
     }
 }

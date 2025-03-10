@@ -4,10 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,23 +18,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ebs.R
 import com.example.ebs.ui.AppViewModelProvider
+import com.example.ebs.ui.components.composes.AestheticButton
+import com.example.ebs.ui.components.composes.CenterColumn
+import com.example.ebs.ui.components.composes.CenterRow
 import com.example.ebs.ui.components.composes.InputSpace
+import com.example.ebs.ui.components.composes.TextContentL
+import com.example.ebs.ui.components.composes.TextContentM
+import com.example.ebs.ui.components.composes.TextTitleL
 import com.example.ebs.ui.navigation.NavigationHandler
-import com.example.ebs.utils.getGredien
 
 
 @Composable
@@ -47,113 +45,66 @@ fun SignInScreen(
     SignedIn: MutableState<Boolean>,
     viewModel: SignInViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+    CenterColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.background)
     ) {
-
-
-        val textkusus = buildAnnotatedString {
+        TextTitleL(buildAnnotatedString {
             withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                 append("Halo,")
             }
             append(" Teman!")
-        }
-        Text(
-            text = textkusus,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            ),
-            textAlign = TextAlign.Center
-        )
-
+        }, mod = true)
 
         Spacer(modifier = Modifier.height(16.dp))
 
-
-        Text(
-            text = "Ada sesuatu yang tidak boleh dilewatkan agar bisa eksplor lebih jauh lagi pada aplikasi ini",
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.onBackground,
-                fontWeight = FontWeight.Bold
-            ),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(0.7f)
-        )
-
+        TextContentL("Ada sesuatu yang tidak boleh")
+        TextContentL("dilewatkan agar bisa eksplor lebih jauh")
+        TextContentL("lagi pada aplikasi ini")
 
         Spacer(modifier = Modifier.height(64.dp))
+
         InputSpace("Username")
-        Spacer(modifier = Modifier.height(8.dp))
         InputSpace("Password")
+
         Spacer(modifier = Modifier.height(16.dp))
 
-        Card(
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(60.dp)
-                .clickable (
-                    onClick = {
-                        SignedIn.value = true
-                        navHandler.menuFromSignIn()
-                    })
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(getGredien(
-                        MaterialTheme.colorScheme.primary,
-                        MaterialTheme.colorScheme.secondary
-                    ))
-            ){
-                Text(
-                    text = "Login",
-                    textAlign = TextAlign.Center,
-                    color = Color.White,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.Center)
-                )
+        AestheticButton(
+            text = "Login",
+            onClick = {
+                SignedIn.value = true
+                navHandler.menuFromSignIn()
             }
-        }
-
+        )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-
-        Row (
-            verticalAlignment = Alignment.CenterVertically,
+        CenterRow(
             modifier = Modifier
                 .height(50.dp)
         ){
-            Column(
-                verticalArrangement = Arrangement.Center,
+            CenterColumn(
                 modifier = Modifier
                     .width(100.dp)
                     .fillMaxHeight()
-            ) { HorizontalDivider(color = Color.Gray) }
-            Spacer(modifier = Modifier.width(5.dp))
+            ) {
+                HorizontalDivider(color = Color.Gray)
+            }
             Text(
                 text = "Or",
                 color = Color.Gray,
                 modifier = Modifier
-                    .padding(bottom = 5.dp)
+                    .padding(start = 5.dp, bottom = 5.dp, end = 5.dp)
             )
-            Spacer(modifier = Modifier.width(5.dp))
-            Column(
-                verticalArrangement = Arrangement.Center,
+            CenterColumn(
                 modifier = Modifier
                     .width(100.dp)
                     .fillMaxHeight()
-            ) { HorizontalDivider(color = Color.Gray) }
+            ) {
+                HorizontalDivider(color = Color.Gray)
+            }
         }
-
 
         Card(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface),
@@ -162,9 +113,7 @@ fun SignInScreen(
                 .fillMaxWidth(0.8f)
                 .height(60.dp)
         ) {
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
+            CenterRow (
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.surface)
@@ -185,25 +134,21 @@ fun SignInScreen(
             }
         }
 
-
         Spacer(modifier = Modifier.height(24.dp))
 
-
-        val textkusus2 = buildAnnotatedString {
-            append("Belum punya akun? ")
-            withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
-                append("Daftar")
-            }
+        CenterRow {
+            TextContentM("Belum punya akun? ")
+            TextContentM(
+                buildAnnotatedString {
+                    withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                        append("Daftar")
+                    }
+                },
+                mod = true,
+                modifier = Modifier
+                    .clickable { navHandler.signUpFromSignIn() }
+            )
         }
-        Text(
-            text = textkusus2,
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.onBackground
-            ),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .clickable { navHandler.signUpFromSignIn() }
-        )
     }
 }
 

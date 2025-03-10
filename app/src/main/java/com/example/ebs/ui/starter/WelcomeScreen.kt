@@ -26,18 +26,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.compose.rememberNavController
 import com.example.ebs.R
-import com.example.ebs.ui.components.DarkLightPreviews
 import com.example.ebs.ui.components.composes.CenterColumn
 import com.example.ebs.ui.components.composes.CenterRow
+import com.example.ebs.ui.components.composes.TextContentM
+import com.example.ebs.ui.components.composes.TextTitleM
 import com.example.ebs.ui.navigation.NavigationHandler
-import com.example.ebs.ui.theme.EBSTheme
 
 @Composable
 fun WelcomeScreen(
@@ -65,45 +61,31 @@ fun WelcomeScreen(
                 modifier = Modifier.size(216.dp)
             )
         }
+
         Spacer(modifier = Modifier.height(48.dp))
+
         CenterColumn(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
         ){
-            val textkusus = buildAnnotatedString {
+            TextTitleM(buildAnnotatedString {
                 append("Cukup")
                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.primary)) {
                     append(" Pindai")
                 }
                 append(",")
-            }
-            Text(
-                text = textkusus,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "Kami Urus Sisanya!",
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                textAlign = TextAlign.Center
-            )
+            }, mod = true)
+            TextTitleM("Kami Urus Sisanya!")
+
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "Teknologi cerdas kami akan mendeteksi jenis sampah elektronik Anda dan memberikan langkah mudah untuk mengelolanya",
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 12.sp
-                ),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.width(300.dp)
-            )
+
+            TextContentM("Teknologi cerdas kami akan mendeteksi jenis")
+            TextContentM("sampah elektronik Anda dan memberikan langkah")
+            TextContentM("mudah untuk mengelolanya")
+
             Spacer(modifier = Modifier.height(48.dp))
+
             CenterRow(
                 modifier = Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -123,6 +105,7 @@ fun WelcomeScreen(
                 ) {
                     Text(text = "Login")
                 }
+
                 Button(
                     onClick = { navHandler.signUpFromWelcome() },
                     shape = RoundedCornerShape(10.dp),
@@ -138,15 +121,10 @@ fun WelcomeScreen(
                     Text(text = "Daftar")
                 }
             }
+
             Spacer(modifier = Modifier.height(64.dp))
+
         }
     }
 }
 
-@DarkLightPreviews
-@Composable
-fun PreviwWelcome(){
-    EBSTheme {
-        WelcomeScreen(navHandler = NavigationHandler(rememberNavController()))
-    }
-}
