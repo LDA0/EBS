@@ -57,6 +57,7 @@ fun CameraPermissionRequester(
     }
 
     if (showDialog.value) {
+        val backTrig = remember { mutableStateOf(false) }
         Box(
             modifier = Modifier.Companion
                 .fillMaxSize()
@@ -70,7 +71,10 @@ fun CameraPermissionRequester(
                 },
                 leftAct = {
                     showDialog.value = false
-                    navHandler.back()
+                    if(!backTrig.value){
+                        backTrig.value = true
+                        navHandler.back()
+                    }
                 },
             )
         }

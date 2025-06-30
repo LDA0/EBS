@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.ebs.R
 import com.example.ebs.ui.components.texts.TextTitleL
 import com.example.ebs.ui.navigation.NavigationHandler
-
+import androidx.compose.runtime.remember
 @Composable
 fun TopBer(
     title: Any = "Not Set",
@@ -26,6 +27,7 @@ fun TopBer(
     customBack: Color,
     mod: Boolean = false
 ){
+    val backTrig = remember { mutableStateOf(false) }
     Box (
         modifier = Modifier
             .background(if (customBack!=MaterialTheme.colorScheme.background) customBack else MaterialTheme.colorScheme.background)
@@ -45,7 +47,10 @@ fun TopBer(
                 .align(Alignment.CenterStart)
                 .size(40.dp)
                 .clickable{
-                    navHandler.back()
+                    if(!backTrig.value) {
+                        backTrig.value = true
+                        navHandler.back()
+                    }
                 },
             tint = if (mod) Color.White else MaterialTheme.colorScheme.onBackground
         )

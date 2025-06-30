@@ -25,7 +25,9 @@ class NavigationHandler(private val navController: NavController) {
 
     private fun justNavigate(route: Any) {
         navController.navigate(route){
-            popUpTo(navController.graph.findStartDestination().id)
+            popUpTo(
+                navController.graph.findStartDestination().id
+            )
             launchSingleTop = true
         }
     }

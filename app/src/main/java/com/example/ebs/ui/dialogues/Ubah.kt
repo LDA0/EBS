@@ -42,6 +42,7 @@ fun Ubah(
 ) {
     val namaBaru = remember { mutableStateOf(viewModelMain.localInfo.name ?: "") }
     val waitEmail = remember { mutableStateOf(false) }
+    val backTrig = remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     Card(
         colors = CardDefaults.cardColors().copy(
@@ -92,7 +93,10 @@ fun Ubah(
                         userPref.saveName(namaBaru.value)
                         delay(1000)
                         waitEmail.value = false
-                        viewModelMain.navHandler.back()
+                        if(!backTrig.value) {
+                            backTrig.value = true
+                            viewModelMain.navHandler.back()
+                        }
                         viewModelMain.navHandler.dashboard()
                     }
                 },

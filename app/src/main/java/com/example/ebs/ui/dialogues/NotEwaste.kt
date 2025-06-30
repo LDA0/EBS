@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,34 +35,45 @@ fun NotEwaste(
     detection: Detection,
     id: String
 ){
+    val backTrig = remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.5f))
             .clickable {
-                if (detection.objectsCount == 0) {
-                    viewModelMain.navHandler.back()
-                } else {
-                    viewModelMain.updateLocalHistory(id)
-                    viewModelMain.navHandler.back()
+                if (!backTrig.value) {
+                    backTrig.value = true
+                    if (detection.objectsCount == 0) {
+                        viewModelMain.navHandler.back()
+                    } else {
+                        viewModelMain.updateLocalHistory(id)
+                        viewModelMain.navHandler.back()
+                    }
                 }
             }
     ) {
         ReminderResult(
             onCancel = {
-                if (detection.objectsCount == 0) {
-                    viewModelMain.navHandler.back()
-                } else {
-                    viewModelMain.updateLocalHistory(id)
-                    viewModelMain.navHandler.back()
+                if (!backTrig.value) {
+                    backTrig.value = true
+                    if (detection.objectsCount == 0) {
+                        viewModelMain.navHandler.back()
+                    } else {
+                        viewModelMain.updateLocalHistory(id)
+                        viewModelMain.navHandler.back()
+                    }
                 }
             },
             onConfirm = {
-                if(detection.objectsCount == 0) {
-                    viewModelMain.navHandler.scanFromDetail()
-                } else {
-                    viewModelMain.updateLocalHistory(id)
-                    viewModelMain.navHandler.back()
+                if (!backTrig.value) {
+                    backTrig.value = true
+                    if (detection.objectsCount == 0) {
+                        viewModelMain.navHandler.scanFromDetail()
+                    } else {
+                        viewModelMain.updateLocalHistory(id)
+                        viewModelMain.navHandler.back()
+                    }
                 }
             },
             modifier = Modifier

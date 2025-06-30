@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var navHandler: NavigationHandler
-    lateinit var localCred: String
+//    lateinit var localCred: String
     lateinit var localInfo: GoogleProfileFields
 
     var firstOpen: Boolean
@@ -91,9 +91,9 @@ class MainViewModel @Inject constructor(
         navHandler = NavigationHandler(navController)
     }
 
-    fun updateLocalCred(token: String) {
-        localCred = token
-    }
+//    fun updateLocalCred(token: String) {
+//        localCred = token
+//    }
 
     fun getUserData(){
         val userData = authManagerState.getGoogleProfileInfo()
@@ -176,18 +176,21 @@ class MainViewModel @Inject constructor(
                         article -> article !in localArticles.value.map{ it }
                     }
                 if(result.isNotEmpty()) {
-                    localArticles.value =
-                        result.filter { article ->
+                    localArticles.value = result
+                        .filter { article ->
                             article.id !in localArticles.value.map { it.id }
-                        }.map { it }
+                        }
+                        .filter { article ->
+                            article != Article().copy(id = "") &&
+                                    article != Article().copy(id = "1")
+                        }
+                        .map { it }
                 }
             } catch (e: Exception) {
                 Log.e("ErrorA","${e.localizedMessage} ups")
                 if (e.message?.contains("Unable to resolve host", ignoreCase = true) == true) {
                     localArticles.value = listOf(
-                        Article().copy(
-                            id = "Ups?! Tidak ada koneksi internet..."
-                        )
+                        Article().copy(id = "1")
                     )
                 }
             }
@@ -226,20 +229,17 @@ class MainViewModel @Inject constructor(
                     Log.e("ErrorD","${e.localizedMessage} ups")
                     if (e.message?.contains("Unable to resolve host", ignoreCase = true) == true) {
                         localHistory.value = listOf(
-                            Detection().copy(
-                                id = "Ups?! Tidak ada koneksi internet..."
-                            )
+                            Detection().copy(id = "1")
                         )
                     }
                 }
                 if (result.isNotEmpty()) {
-                    localHistory.value = result.filter { scan ->
-                        localHistory.value.none {
-                            it.id == scan.id && it.objectsCount == scan.objectsCount
+                    localHistory.value = (result + localHistory.value)
+                        .filter { scan ->
+                            scan.id != "" &&
+                                    scan.id != "1"
                         }
-                    } + localHistory.value.filter { scanId ->
-                        scanId.id !in result.map { it.id }
-                    }
+                        .distinctBy { it.id to it.objectsCount }
                 }
             }
 
@@ -282,14 +282,26 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private var pollId: String? = null
+    private var pollToken: String? = null
+
     suspend fun pollResult(id: String): Detection {
         return try {
-            val userId = authManagerState.getUserId() ?: ""
-            val token = ebsRepositoryState.loginUser(userId)
+            if (pollId == null) {
+                pollId = authManagerState.getUserId() ?: ""
+            }
+            if (pollToken == null) {
+                pollToken = ebsRepositoryState.loginUser(pollId!!)
+            }
+            val token = pollToken!!
             val result = ebsRepositoryState.getDetection(token, id)
 //            if (result.status == "completed" && tries > 1) {
 //                eBSNotificationService.showExpandableResultNotification(result.imageUrl,result.id)
 //            }
+            if (result.status == "completed") {
+                pollId = null
+                pollToken = null
+            }
             result
         } catch (e: Exception) {
             Detection().copy(

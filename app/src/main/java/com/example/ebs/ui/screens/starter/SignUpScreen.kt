@@ -108,11 +108,11 @@ fun SignUpScreen(
                                 waitEmail.value = false
                                 when (result) {
                                     is AuthResponse.Success -> {
-                                        viewModelMain.updateLocalCred(
-                                            viewModelMain.authManagerState
-                                                .getAuthToken() ?: ""
-                                        )
-                                        Log.e("UserId", viewModelMain.localCred)
+//                                        viewModelMain.updateLocalCred(
+//                                            viewModelMain.authManagerState
+//                                                .getAuthToken() ?: ""
+//                                        )
+//                                        Log.e("UserId", viewModelMain.localCred)
                                         // viewModelAuth.localCred?.let { userPref.saveAuthToken(it) }
                                         viewModelMain.navHandler.menuFromSignUp()
                                     }

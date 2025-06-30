@@ -14,5 +14,5 @@ data class Prediction(
     val description: String = "Ketika aplikasi menerima gambar yang tidak dapat dikenali, maka sumber daya yang digunakan menjadi sia-sia",
     @SerialName("damage_level") val damageLvl: Int = 5,
     @SerialName("detection_source") val detSource: String = "",
-    @SerialName("regression_result") val regResult: Double = 0.0,
+    @SerialName("regression_result") val regResult: Double? = 0.0,
 )

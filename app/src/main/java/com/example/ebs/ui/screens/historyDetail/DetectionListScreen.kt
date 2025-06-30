@@ -126,11 +126,15 @@ fun DetectionListScreen(
                 }
             }
             history.size == 1 && history[0] == Detection().copy(
-                id = "Ups?! Tidak ada koneksi internet..."
+                id = "1"
             ) -> {
                 CenterColumn (
                     modifier = Modifier
                         .fillMaxSize()
+                        .scrollable(
+                            state = rememberScrollableState { 0f },
+                            orientation = Orientation.Vertical
+                        )
                 ){
                     Text(
                         text = "Ups?! Tidak ada koneksi internet...",

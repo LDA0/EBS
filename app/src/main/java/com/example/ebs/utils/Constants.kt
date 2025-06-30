@@ -9,4 +9,4 @@ const val HOURS_AND_MINUTES = "HH:mm"
 const val MAX_MINOR = 9
 const val MAX_PATCH = 9
 const val MAX_VERSION = "0.6.0"
-const val CURRENT_VERSION = "0.5.5"
+const val CURRENT_VERSION = "0.5.6"

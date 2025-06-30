@@ -1,5 +1,6 @@
 package com.example.ebs.ui.screens.dashboard.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,7 @@ fun Greeting(viewModelMain: MainViewModel) {
             TextTitleXL("Hallo, ${
                 try {
                     val name = viewModelMain.localInfo.name?.split(" ")?.firstOrNull()
+                    Log.e("Gretter",name ?: "null")
                     if (name.isNullOrBlank()) {
                         viewModelMain.firstOpen = true
                         viewModelMain.navHandler.dashboard()

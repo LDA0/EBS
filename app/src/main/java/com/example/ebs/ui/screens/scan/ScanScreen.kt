@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Top
 import androidx.compose.ui.Modifier
@@ -52,20 +54,30 @@ fun ScanScreen(
         CameraPermissionRequester(viewModelMain.navHandler){}
     }
     if(viewModelMain.authManagerState.checkVerification() == null) {
+        val backTrig = remember { mutableStateOf(false) }
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.5f))
                 .clickable {
-                    viewModelMain.navHandler.back()
+                    if(!backTrig.value){
+                        backTrig.value = true
+                        viewModelMain.navHandler.back()
+                    }
                 }
         ) {
             ReminderResult(
                 onCancel = {
-                    viewModelMain.navHandler.back()
+                    if(!backTrig.value){
+                        backTrig.value = true
+                        viewModelMain.navHandler.back()
+                    }
                 },
                 onConfirm = {
-                    viewModelMain.navHandler.back()
+                    if(!backTrig.value){
+                        backTrig.value = true
+                        viewModelMain.navHandler.back()
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.Center)

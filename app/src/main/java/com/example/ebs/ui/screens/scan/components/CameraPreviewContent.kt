@@ -203,11 +203,11 @@ internal fun CameraPreviewContent(
                                     .current
                                     .containerSize
                                     .let {
-                                    if (it.height != 0)
-                                        it.width.toFloat() / it.height.toFloat()
-                                    else
-                                        1f
-                                }
+                                        if (it.height != 0)
+                                            it.width.toFloat() / it.height.toFloat()
+                                        else
+                                            1f
+                                    }
                             )
                     )
                     BoxShade()
@@ -486,6 +486,7 @@ internal fun CameraPreviewContent(
         }
         if(userInfo.emailVerified == "false") {
             if (!reminder.value){
+                val backTrig = remember { mutableStateOf(false) }
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -496,7 +497,10 @@ internal fun CameraPreviewContent(
                 ) {
                     ReminderResult(
                         onCancel = {
-                            viewModelMain.navHandler.back()
+                            if(!backTrig.value) {
+                                backTrig.value = true
+                                viewModelMain.navHandler.back()
+                            }
                         },
                         onConfirm = {
                             reminder.value = !reminder.value
